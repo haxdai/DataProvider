@@ -1,8 +1,11 @@
 package com.hasdaipacheco;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SQLProvider implements DataProvider {
+    private static final Logger LOG = Logger.getLogger(SQLProvider.class.getName());
     private static SQLProvider instance;
     private static Connection connection;
     private boolean driverLoaded = false;
@@ -23,7 +26,7 @@ public class SQLProvider implements DataProvider {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             driverLoaded = true;
         } catch (Exception cnfe) {
-            System.out.println("Error al realizar la conexión");
+            LOG.log(Level.SEVERE, "Error al realizar la conexión", cnfe);
         }
     }
 
@@ -40,7 +43,7 @@ public class SQLProvider implements DataProvider {
                 connection = DriverManager.getConnection(url, user, pass);
                 return true;
             } catch (SQLException sqe) {
-
+                LOG.log(Level.SEVERE, "Error al realizar la conexión", sqe);
             }
         }
         return false;
@@ -56,7 +59,7 @@ public class SQLProvider implements DataProvider {
                 connection.close();
                 return true;
             } catch (SQLException sqe) {
-
+                LOG.log(Level.SEVERE, "Error al realizar la desconexión", sqe);
             }
         }
         return false;
@@ -71,7 +74,7 @@ public class SQLProvider implements DataProvider {
         try {
             return st.executeQuery();
         } catch (SQLException sqe) {
-
+            LOG.log(Level.SEVERE, "Error al realizar la consulta", sqe);
         }
         return null;
     }
@@ -85,7 +88,7 @@ public class SQLProvider implements DataProvider {
         try {
             return st.executeUpdate();
         } catch (SQLException sqe) {
-
+            LOG.log(Level.SEVERE, "Error al realizar la actualización", sqe);
         }
         return 0;
     }

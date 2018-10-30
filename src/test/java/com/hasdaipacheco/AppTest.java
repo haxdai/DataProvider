@@ -13,18 +13,18 @@ public class AppTest
 {
     private static SQLProvider provider;
 
-    @BeforeClass
+    //@BeforeClass
     public static void prepare() {
         provider = SQLProvider.getInstance();
         provider.connect("jdbc:mysql://localhost/inventariodb", "root", "");
     }
 
-    @Test
+    //@Test
     public void shouldConnectToDataBaseWithUserAndPassword() {
         Assert.assertNotNull(provider.getConnection());
     }
 
-    @Test
+    //@Test
     public void shouldInsertRecordToDataBase() {
         PreparedStatement st = null;
         try {
@@ -53,7 +53,7 @@ public class AppTest
         }
     }
 
-    @AfterClass
+    //@AfterClass
     public static void cleanUp() {
         PreparedStatement deleteAll = null;
 
